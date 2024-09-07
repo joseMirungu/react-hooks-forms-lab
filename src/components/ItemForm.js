@@ -1,22 +1,39 @@
-import React from "react";
-import { v4 as uuid } from "uuid";
+// src/components/ItemForm.js
 
-function ItemForm(props) {
+import React, { useState } from 'react';
+
+function ItemForm({ onItemFormSubmit }) {
+  const [itemName, setItemName] = useState('');
+  const [category, setCategory] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onItemFormSubmit({
+      id: new Date().toISOString(), // Mock ID
+      name: itemName,
+      category: category,
+    });
+    setItemName('');
+    setCategory('');
+  };
+
   return (
-    <form className="NewItem">
-      <label>
-        Name:
-        <input type="text" name="name" />
-      </label>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="name">Name:</label>
+      <input
+        id="name"
+        type="text"
+        value={itemName}
+        onChange={(e) => setItemName(e.target.value)}
+      />
 
-      <label>
-        Category:
-        <select name="category">
-          <option value="Produce">Produce</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Dessert">Dessert</option>
-        </select>
-      </label>
+      <label htmlFor="category">Category:</label>
+      <input
+        id="category"
+        type="text"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      />
 
       <button type="submit">Add to List</button>
     </form>
